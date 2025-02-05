@@ -58,7 +58,7 @@ struct ContentView: View {
             .padding()
             .background(Color.blue)
             .foregroundColor(.white)
-            .cornerRadius(10)
+            .cornerRadius(40)
             .padding()
         }
     }
