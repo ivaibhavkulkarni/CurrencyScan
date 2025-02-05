@@ -1,63 +1,66 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isConvertMode = false
+    
     var body: some View {
         VStack {
-            Text("Scan the Currency")
+            Text(isConvertMode ? "Convert the Currency" : "Scan the Currency")
                 .font(.title)
                 .fontWeight(.bold)
             
-            Image(systemName: "scanner")
+            Image(systemName: isConvertMode ? "repeat" : "scanner")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 100, height: 100)
                 .foregroundColor(.black)
-        }
-        
-        Spacer()
-        
-        Text("Scanner Container") // [Scanner]
-        
-        Spacer()
-        
-        HStack {
-            Image(systemName: "scanner")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 50, height: 50)
-                .foregroundColor(.black)
-                .contentShape(Rectangle()) // Ensures the tap gesture is recognized
-                .onTapGesture {
-                    print("Scanner button tapped!")
-                }
             
-            Image(systemName: "arrow.right.and.line.vertical.and.arrow.left")
-                .mask(Rectangle().frame(width: 5, height:50))
+            Spacer()
             
+            // Main Container
             
-            Image(systemName: "repeat")
+            Text(isConvertMode ? "Converter Container" : "Scanner Container")
+            
+            Spacer()
+            
+            // Container for Horizontal images (Buttons)
+            
+            HStack {
+                Image(systemName: "scanner")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 50, height: 50)
                     .foregroundColor(.black)
-                    .contentShape(Rectangle()) // Ensures the tap gesture is recognized
+                    .contentShape(Rectangle())
                     .onTapGesture {
-                        print("Repeat button tapped!")
-                }
+                        isConvertMode = false
+                    }
+                
+                Image(systemName: "arrow.right.and.line.vertical.and.arrow.left")
+                    .mask(Rectangle().frame(width: 5, height: 50))
+                
+                Image(systemName: "repeat")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.black)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        isConvertMode.toggle()
+                    }
+            }
+            
+            Button(isConvertMode ? "Convert" : "Scan") {
+                print(isConvertMode ? "Convert Button Clicked" : "Scan Button Clicked")
+            }
+            .font(.title2)
+            .frame(width: 120, height: 20)
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .padding()
         }
-        
-        Button("Scan") {
-            // Action for the Scan button
-            print("Scan Button Clicked")
-        }
-        .font(.title2)
-        .frame(width: 120, height: 20)
-        .padding()
-        .background(Color.blue)
-        .foregroundColor(.white)
-        .cornerRadius(10)
-        .padding()
     }
 }
-
 
