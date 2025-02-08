@@ -53,8 +53,8 @@ struct ContentView: View {
             Button(isConvertMode ? "Convert" : "Scan") {
                 print(isConvertMode ? "Convert Button Clicked" : "Scan Button Clicked")
             }
-            .font(.title2)
-            .frame(width: 120, height: 20)
+            .font(.title3)
+            .frame(width: 120, height: 18)
             .padding()
             .background(Color.blue)
             .foregroundColor(.white)
