@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var isConvertMode = false
+    @State var showAppInfo = false
+
     
     var body: some View {
         VStack {
@@ -60,6 +62,24 @@ struct ContentView: View {
             .foregroundColor(.white)
             .cornerRadius(40)
             .padding()
+        }
+        
+        Spacer()
+        
+        HStack{
+            Spacer()
+            Button{
+                showAppInfo.toggle()
+                print(showAppInfo)
+            } label:{
+                Image(systemName: "info.circle.fill")
+                    .font(.largeTitle)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.trailing)
+        }
+        .sheet(isPresented: $showAppInfo){
+            AppInfo()
         }
     }
 }
