@@ -15,5 +15,6 @@ detected currency.
 optimizing real-time processing.
 
 ## ScreenShot
-<img width="1440" alt="Screenshot 2025-02-16 at 8 09 36 PM" src="https://github.com/user-attachments/assets/8702fb17-aeea-4f23-aab1-9dc419bb616b" />
 
+<img width="1440" alt="Screenshot 2025-02-20 at 12 33 02 PM" src="https://github.com/user-attachments/assets/6f036da5-924a-41aa-98c2-b77d643f47fe" />
+<img width="1440" alt="Screenshot 2025-02-20 at 12 33 12 PM" src="https://github.com/user-attachments/assets/529d9220-1e4b-43fe-8afa-83c43cacd5b2" />
