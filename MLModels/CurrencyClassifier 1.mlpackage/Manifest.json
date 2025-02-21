@@ -1,0 +1,24 @@
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "4AA678AA-FD81-4F43-B043-4DAD13BCF350": {
+            "author": "com.apple.CoreML",
+            "description": "External FeatureDescription Overlay",
+            "name": "FeatureDescriptions.json",
+            "path": "com.apple.CoreML/FeatureDescriptions.json"
+        },
+        "6BC439CF-4EBF-40D2-9F86-5A3A0E9908F9": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "CurrencyClassifier 1.mlmodel",
+            "path": "com.apple.CoreML/CurrencyClassifier 1.mlmodel"
+        },
+        "C7744C6D-7AA4-45EC-BA90-6CFC75AC4402": {
+            "author": "com.apple.CoreML",
+            "description": "External Metadata Overlay",
+            "name": "Metadata.json",
+            "path": "com.apple.CoreML/Metadata.json"
+        }
+    },
+    "rootModelIdentifier": "6BC439CF-4EBF-40D2-9F86-5A3A0E9908F9"
+}

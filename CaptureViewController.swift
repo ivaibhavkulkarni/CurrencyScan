@@ -12,90 +12,78 @@ import Vision
 class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     var bufferSize: CGSize = .zero
-    var rootlayer: CALayer! = nil
+    var rootLayer: CALayer! = nil
     
     private let session = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer! = nil
     private let videoDataOutput = AVCaptureVideoDataOutput()
     
-    private let videoDataOutputQueue = DispatchQueue(
-        label: "VideoDataOutput",
-        qos: .userInteractive,
-        attributes: [],
-        autoreleaseFrequency: .workItem
-    )
+    private let videoDataOutputQueue = DispatchQueue(label: "CurrencyClassifier_1", qos: .userInitiated,
+            attributes: [], autoreleaseFrequency: .workItem)
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        // Implement frame processing logic here
+        // To be Implemented in the subclass
     }
     
-    func setupAVCapture(_ previewView: UIView) {
-        var deviceInput: AVCaptureDeviceInput!
+    func setAVCapture(_ previewView: UIView) {
+        var deviceInput : AVCaptureDeviceInput!
         
-        // Select a video device and make an input
-        guard let videoDevice = AVCaptureDevice.DiscoverySession(
+        //Select a Video Device, Make an input
+        let videoDevice = AVCaptureDevice.DiscoverySession(
             deviceTypes: [.builtInWideAngleCamera],
             mediaType: .video,
-            position: .back
-        ).devices.first else {
-            print("No video device found")
-            return
-        }
+            position: .back).devices.first
         
-        do {
-            deviceInput = try AVCaptureDeviceInput(device: videoDevice)
-        } catch {
-            print("Could not create video device input: \(error)")
+        do{
+            deviceInput = try AVCaptureDeviceInput(device: videoDevice!)
+        }catch{
+            print("Could not create a video device input:\(error)")
             return
         }
         
         session.beginConfiguration()
         session.sessionPreset = .vga640x480
         
-        // Add a video input
+        //Add a video Input
         guard session.canAddInput(deviceInput) else {
             print("Could not add video device input to the session")
             session.commitConfiguration()
             return
         }
         session.addInput(deviceInput)
-        
-        if session.canAddOutput(videoDataOutput) {
+        if session.canAddOutput(videoDataOutput){
             session.addOutput(videoDataOutput)
+            // Add Video data output
             videoDataOutput.alwaysDiscardsLateVideoFrames = true
-            videoDataOutput.videoSettings = [
-                kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)
-            ]
+            videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
             videoDataOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
-        } else {
+        }else{
             print("Could not add video data output to the session")
             session.commitConfiguration()
             return
         }
-        
         let captureConnection = videoDataOutput.connection(with: .video)
+        //Always Process the frames
         captureConnection?.isEnabled = true
-        
-        do {
-            try videoDevice.lockForConfiguration()
-            let dimensions = CMVideoFormatDescriptionGetDimensions(videoDevice.activeFormat.formatDescription)
+        do{
+            try videoDevice!.lockForConfiguration()
+            let dimensions = CMVideoFormatDescriptionGetDimensions((videoDevice?.activeFormat.formatDescription)!)
             bufferSize.width = CGFloat(dimensions.width)
             bufferSize.height = CGFloat(dimensions.height)
-            videoDevice.unlockForConfiguration()
-        } catch {
-            print("Error configuring video device: \(error)")
+            videoDevice!.unlockForConfiguration()
+        }catch{
+            print(error)
         }
         
         session.commitConfiguration()
-        
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        previewLayer.videoGravity = .resizeAspectFill
-        rootlayer = previewView.layer
-        previewLayer.frame = rootlayer.bounds
-        rootlayer.addSublayer(previewLayer)
+        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        rootLayer = previewView.layer
+        previewLayer.frame = rootLayer.bounds
+        rootLayer.addSublayer(previewLayer)
     }
     
-    func startCaptureSession() {
+    func startCaptureSession(){
         session.startRunning()
     }
     
@@ -104,23 +92,26 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         previewLayer = nil
     }
     
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        // Implement frame processing logic here
+    func captureOutput(_ output: AVCaptureOutput, didDrop didDropnsampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
     }
     
     public func reqOrientationFromDeviceOrientation() -> CGImagePropertyOrientation {
         let curDeviceOrientation = UIDevice.current.orientation
+        let reqOrientation: CGImagePropertyOrientation
+        
         switch curDeviceOrientation {
-        case .portraitUpsideDown:
-            return .left
-        case .landscapeLeft:
-            return .upMirrored
-        case .landscapeRight:
-            return .down
-        case .portrait:
-            return .up
+        case UIDeviceOrientation.portraitUpsideDown:
+            reqOrientation = .left
+        case UIDeviceOrientation.landscapeLeft:
+            reqOrientation = .upMirrored
+        case UIDeviceOrientation.landscapeRight:
+            reqOrientation = .down
+        case UIDeviceOrientation.portrait:
+            reqOrientation = .up
         default:
-            return .up
+            reqOrientation = .up
         }
+        return reqOrientation
     }
 }
