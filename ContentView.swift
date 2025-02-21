@@ -59,7 +59,6 @@ struct ContentView: View {
             Spacer()
             Button{
                 showAppInfo.toggle()
-                print(showAppInfo)
             } label:{
                 Image(systemName: "info.circle.fill")
                     .font(.largeTitle)
