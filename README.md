@@ -1,3 +1,4 @@
+# Redirect to https://github.com/ivaibhavkulkarni/CurrencyLens/blob/main/README.md
 # MoneyLens (iOS App) |Swift, SwiftUI, Core ML, Vision, AVFoundation, Core Data, SQLite
 ## Developed an iOS application that detects currency notes using machine learning, announces the detected currency
 via text-to-speech, and provides offline currency conversion.
